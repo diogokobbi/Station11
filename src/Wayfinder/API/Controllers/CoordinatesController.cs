@@ -1,3 +1,4 @@
+using API.Requests;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +18,8 @@ public class CoordinatesController : ControllerBase
     }
 
     [HttpPost]
-    public Coordinates? Post([FromBody] Point point, [FromBody] IList<Point> polylinePoints)
+    public Coordinates? Post([FromBody] CoordinatesRequest request)
     {
-        return _calculator.Calculate(point, polylinePoints);
+        return _calculator.Calculate(request.Point, request.PolylinePoints);
     }
 }

@@ -1,3 +1,4 @@
+using Application;
 using Domain;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddScoped<ICoordinatesCalculator, CoordinatesCalculator>();
+builder.Services.AddScoped<ICoordinatesCalculator, CoordinatesCalculator>();
 
 var app = builder.Build();
 
