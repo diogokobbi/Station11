@@ -1,3 +1,4 @@
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -6,27 +7,18 @@ namespace API.Controllers;
 [Route("[controller]")]
 public class CoordinatesController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
     private readonly ILogger<CoordinatesController> _logger;
+    private readonly ICoordinatesCalculator _calculator;
 
-    public CoordinatesController(ILogger<CoordinatesController> logger)
+    public CoordinatesController(ILogger<CoordinatesController> logger, ICoordinatesCalculator calculator)
     {
         _logger = logger;
+        _calculator = calculator;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpPost]
+    public Coordinates? Post([FromBody] Point point, [FromBody] IList<Point> polylinePoints)
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        return _calculator.Calculate(point, polylinePoints);
     }
 }
