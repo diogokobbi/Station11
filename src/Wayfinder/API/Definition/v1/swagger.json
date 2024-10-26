@@ -1,0 +1,140 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Coordinates": {
+      "post": {
+        "tags": [
+          "Coordinates"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoordinatesRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoordinatesRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CoordinatesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coordinates"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coordinates"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Coordinates"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Coordinates": {
+        "type": "object",
+        "properties": {
+          "point": {
+            "$ref": "#/components/schemas/Point"
+          },
+          "polyline": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Vector"
+            },
+            "nullable": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Point"
+          },
+          "offset": {
+            "type": "number",
+            "format": "double"
+          },
+          "station": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CoordinatesRequest": {
+        "type": "object",
+        "properties": {
+          "point": {
+            "$ref": "#/components/schemas/Point"
+          },
+          "polylinePoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Point": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "format": "double"
+          },
+          "y": {
+            "type": "number",
+            "format": "double"
+          },
+          "magnitude": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Vector": {
+        "type": "object",
+        "properties": {
+          "a": {
+            "$ref": "#/components/schemas/Point"
+          },
+          "b": {
+            "$ref": "#/components/schemas/Point"
+          },
+          "distance": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

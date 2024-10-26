@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.9.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -21,5 +22,13 @@
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Definition\v1\" />
+    </ItemGroup>
+
+    <Target Name="CreateOpenApiDefinition" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
+        <Exec Command="dotnet swagger tofile --output ./Definition/v1/swagger.json $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" />
+    </Target>
 
 </Project>
