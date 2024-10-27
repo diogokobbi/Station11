@@ -1,5 +1,5 @@
 <div id="toolbar-content" class="container-fluid">
-    <form class="form-inline my-2">
+    <form class="form-inline my-2" [formGroup]="requestForm" (ngSubmit)="handleOnFormSubmitted()">
         <div class="form-group mb-2">
             <label for="latitude" class="mx-2">Latitude</label>
             <input type="number" class="form-control" id="latitude" formControlName="latitude">

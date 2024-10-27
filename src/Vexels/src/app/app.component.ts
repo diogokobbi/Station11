@@ -13,15 +13,17 @@ import { ToolbarComponent } from './features/toolbar/toolbar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+
   title = 'Vexels';
   coordinates: components['schemas']['Coordinates'] | undefined;
 
-  constructor(private coordinatesService: CoordinatesService) {
-        
+  constructor(private readonly coordinatesService: CoordinatesService) {        
   }
 
-  ngOnInit(): void {
-    this.coordinates = this.coordinatesService.getCoordinates();
+  handleNewCoordinates(newCoordinates: components["schemas"]["Coordinates"]) {
+    if (this.coordinatesService.coordinatesAreValid(newCoordinates)) {
+      this.coordinates = newCoordinates;    
+    }
   }
 }

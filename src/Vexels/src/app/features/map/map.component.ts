@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { GoogleMapsModule } from "@angular/google-maps";
 import { Loader } from "@googlemaps/js-api-loader";
 import { components } from '../../interfaces/wayfinder-sdk';
+import { CoordinatesService } from '../../services/coordinates.service';
 
 @Component({
   selector: 'app-map',
@@ -10,7 +11,7 @@ import { components } from '../../interfaces/wayfinder-sdk';
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnChanges {
 
   @Input() coordinates: components['schemas']['Coordinates'] | undefined;
 
@@ -27,11 +28,11 @@ export class MapComponent implements OnInit, OnChanges {
     fullscreenControl: false,
   };
 
-  ngOnInit() {
+  constructor(private readonly coordinatesService: CoordinatesService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.map && this.coordinatesAreValid()) {
+    if (this.map && this.coordinates && this.coordinatesService.coordinatesAreValid(this.coordinates)) {
       this.renderCoordinates();
     }
   }
@@ -66,13 +67,10 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  private coordinatesAreValid() {
-    return this.coordinates && this.coordinates.polyline && this.coordinates.point && this.coordinates.location;
-  }
   
   handleMapInitialized(map: google.maps.Map) {
     this.map = map;
-    if (this.map && this.coordinatesAreValid()) {
+    if (this.map && this.coordinates && this.coordinatesService.coordinatesAreValid(this.coordinates)) {
       this.renderCoordinates();
     }
   }

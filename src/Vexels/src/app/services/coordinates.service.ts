@@ -11,6 +11,13 @@ export class CoordinatesService {
     return this._mockCoordinates();
   }
 
+  coordinatesAreValid(coordinates: components["schemas"]["Coordinates"]): boolean {
+    return coordinates !== null 
+            && coordinates.polyline !== null 
+            && coordinates.point !== null 
+            && coordinates.location !== null;
+  }
+
   private _mockCoordinates(): components["schemas"]["Coordinates"] {
     return {
       point: {
