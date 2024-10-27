@@ -11,6 +11,10 @@ public class Polyline
     public Polyline(IList<Point> points)
     {
         this.Points = points;
-        //Todo: build vertices
+        this.Vertices = new List<Vector>();
+        for (int i = 0; i < Points.Count-1; i++)
+        {
+            Vertices.Add(new Vector(points[i], points[i+1]));
+        }
     }
 }

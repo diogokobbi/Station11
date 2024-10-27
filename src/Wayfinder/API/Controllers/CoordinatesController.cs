@@ -20,6 +20,15 @@ public class CoordinatesController : ControllerBase
     [HttpPost]
     public Coordinates? Post([FromBody] CoordinatesRequest request)
     {
-        return _calculator.Calculate(request.Point, request.PolylinePoints);
+        request.Point = new Point(-22.412260, -42.966400);
+        request.PolylinePoints = new List<Point>
+        {
+            new Point(-22.906847, -43.172897), 
+            new Point(-22.509911, -43.175480),
+            new Point(-21.764940, -43.348969), 
+            new Point(-20.139370, -44.886990),
+        };
+        var newCoordinates = _calculator.Calculate(request.Point, request.PolylinePoints);
+        return newCoordinates;
     }
 }

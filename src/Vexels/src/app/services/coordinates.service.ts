@@ -11,40 +11,11 @@ export class CoordinatesService {
 
   constructor(private http: HttpClient) { }
 
-  getCoordinates(request: components["schemas"]["CoordinatesRequest"]): any {
-    //TODO: validate request
-    return this._mockCoordinates();
-
-    this.http.post<components["schemas"]["Coordinates"]>(`${environment.apiUrl}/coordinates`, request)
-      .pipe(take(1))
-      .subscribe({
-        next: (coordinates: components["schemas"]["Coordinates"]) => {
-          if (this.coordinatesAreValid(coordinates)) {
-            return coordinates;
-          } else {
-            return undefined;
-          }
-        },
-        error: (error: any) => {
-          console.error(error);
-          return undefined;
-        }
-      }); 
-  }
-
-  coordinatesAreValid(coordinates: components["schemas"]["Coordinates"]): boolean {
-    return coordinates !== null 
-            && coordinates.polyline !== null 
-            && coordinates.point !== null 
-            && coordinates.location !== null;
-  }
-
-  private _mockCoordinates(): components["schemas"]["Coordinates"] {
+  mockCoordinates(): any {
     return {
       point: {
         x: -22.412260,
-        y: -42.966400,
-        magnitude: 0
+        y: -42.966400
       },
       polyline: [
         { x: -22.906847, y: -43.172897, magnitude: 0 }, 
@@ -61,4 +32,19 @@ export class CoordinatesService {
       station: 15
     };
   }
+
+  getCoordinates(request: components["schemas"]["CoordinatesRequest"]): any {
+    //TODO: validate request
+
+    return this.http.post<components["schemas"]["Coordinates"]>(`${environment.apiUrl}/coordinates`, request)
+      .pipe(take(1)); 
+  }
+
+  coordinatesAreValid(coordinates: components["schemas"]["Coordinates"]): boolean {
+    return coordinates !== null 
+            && coordinates.polyline !== null 
+            && coordinates.point !== null 
+            && coordinates.location !== null;
+  }
+
 }

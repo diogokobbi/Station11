@@ -27,13 +27,29 @@ export class ToolbarComponent {
   public handleOnFormSubmitted(): void {
     if (this.requestForm.valid) {
       const request: components["schemas"]["CoordinatesRequest"] = {
-        //TODO: fill request
+        point: {
+          x: this.requestForm.get('latitude')?.value,
+          y: this.requestForm.get('longitude')?.value
+        },
+        polylinePoints: this.coordinatesService.mockCoordinates().polyline
       };
-      const newCoordinates = this.coordinatesService.getCoordinates(request);
-      this.onNewCoordinates.emit(newCoordinates);
-      // this.coordinatesService.getCoordinates(request).subscribe((coordinates: components["schemas"]["Coordinates"]) => {
-      //   this.onNewCoordinates.emit(coordinates);
-      // });      
+      //TODO: change polylinePoints to file
+      this.coordinatesService.getCoordinates(request)
+        .subscribe({
+          next: (coordinates: components["schemas"]["Coordinates"]) => {            
+            if (this.coordinatesService.coordinatesAreValid(coordinates)) {
+              this.onNewCoordinates.emit(coordinates);
+            } else {
+              //TODO: toast notification
+            }
+          },
+          error: (error: any) => {
+            console.error(error);
+            //TODO: toast notification
+          }
+        });      
+    } else {
+      //TODO: toast notification
     }
   }
 }
