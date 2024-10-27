@@ -1,14 +1,35 @@
 import { Injectable } from '@angular/core';
 import { components } from '../interfaces/wayfinder-sdk';
+import { HttpClient } from '@angular/common/http';
+import { take } from 'rxjs';
+import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class CoordinatesService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getCoordinates(): components["schemas"]["Coordinates"] {
+  getCoordinates(request: components["schemas"]["CoordinatesRequest"]): any {
+    //TODO: validate request
     return this._mockCoordinates();
+
+    this.http.post<components["schemas"]["Coordinates"]>(`${environment.apiUrl}/coordinates`, request)
+      .pipe(take(1))
+      .subscribe({
+        next: (coordinates: components["schemas"]["Coordinates"]) => {
+          if (this.coordinatesAreValid(coordinates)) {
+            return coordinates;
+          } else {
+            return undefined;
+          }
+        },
+        error: (error: any) => {
+          console.error(error);
+          return undefined;
+        }
+      }); 
   }
 
   coordinatesAreValid(coordinates: components["schemas"]["Coordinates"]): boolean {

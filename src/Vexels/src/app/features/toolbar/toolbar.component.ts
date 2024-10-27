@@ -20,14 +20,20 @@ export class ToolbarComponent {
 
   public requestForm: FormGroup = new FormGroup({
     latitude: new FormControl<number|undefined>(undefined, Validators.required),
-    longitude: new FormControl<number|undefined>(undefined, Validators.required)
+    longitude: new FormControl<number|undefined>(undefined, Validators.required),
+    polylinePoints: new FormControl<File|undefined>(undefined)
   });
 
   public handleOnFormSubmitted(): void {
     if (this.requestForm.valid) {
-      //TODO: fetch api
-      var coordinates = this.coordinatesService.getCoordinates();
-      this.onNewCoordinates.emit(coordinates);
+      const request: components["schemas"]["CoordinatesRequest"] = {
+        //TODO: fill request
+      };
+      const newCoordinates = this.coordinatesService.getCoordinates(request);
+      this.onNewCoordinates.emit(newCoordinates);
+      // this.coordinatesService.getCoordinates(request).subscribe((coordinates: components["schemas"]["Coordinates"]) => {
+      //   this.onNewCoordinates.emit(coordinates);
+      // });      
     }
   }
 }

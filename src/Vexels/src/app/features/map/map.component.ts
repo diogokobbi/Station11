@@ -45,9 +45,19 @@ export class MapComponent implements OnChanges {
         this.pointMarker = new google.maps.Marker({ position: markerPosition, title: 'Point', map: this.map }); 
         this.map?.setCenter(markerPosition);
       }
+      //Add location point
       if (this.coordinates?.location?.x && this.coordinates?.location?.y) {
         const locationPosition = { lat: this.coordinates?.location?.x, lng: this.coordinates?.location?.y };
         this.locationMarker = new google.maps.Marker({ position: locationPosition, title: 'Location', map: this.map }); 
+      }
+      //Add location infowindow
+      if (this.locationMarker) {
+        const infowindow = new google.maps.InfoWindow({
+          content: `<h6>Location</h6><br><p><strong>Offset</strong>: ${this.coordinates.offset}</p><p><strong>Station</strong>: ${this.coordinates.station}</p>`
+        });
+        this.locationMarker.addListener('click', () => {
+          infowindow.open(this.map, this.locationMarker);
+        });
       }
       
       //Add polyline
