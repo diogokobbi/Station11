@@ -65,7 +65,7 @@
           "polyline": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Vector"
+              "$ref": "#/components/schemas/Point"
             },
             "nullable": true
           },
@@ -111,23 +111,6 @@
             "format": "double"
           },
           "magnitude": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Vector": {
-        "type": "object",
-        "properties": {
-          "a": {
-            "$ref": "#/components/schemas/Point"
-          },
-          "b": {
-            "$ref": "#/components/schemas/Point"
-          },
-          "distance": {
             "type": "number",
             "format": "double",
             "readOnly": true

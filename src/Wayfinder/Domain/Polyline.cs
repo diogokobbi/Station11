@@ -4,11 +4,13 @@ namespace Domain;
 
 public class Polyline
 {
-    public IImmutableList<Vector> Vertices { get; }
+    public IList<Point> Points { get; }
+    private IList<Vector> Vertices { get; }
     public Double Station => this.Vertices.Sum(v => v.Distance);
 
-    public Polyline(IList<Vector> vertices)
+    public Polyline(IList<Point> points)
     {
-        this.Vertices = vertices.ToImmutableList();
+        this.Points = points;
+        //Todo: build vertices
     }
 }

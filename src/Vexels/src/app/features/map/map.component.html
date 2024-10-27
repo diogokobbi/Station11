@@ -1,0 +1,10 @@
+<div id="map-container">
+    <google-map id="map" 
+        width="100%"
+        height="100%"
+        [center]="center" 
+        [options]="options"
+        (mapInitialized)="handleMapInitialized($event)"
+    >
+    </google-map>
+</div>
