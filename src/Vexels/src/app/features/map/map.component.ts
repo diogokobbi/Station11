@@ -31,9 +31,7 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const isMapInitialized = this.map;
-    const isValidCoordinates = this.coordinates && this.coordinates.polyline && this.coordinates.point && this.coordinates.location;
-    if (isMapInitialized && isValidCoordinates) {
+    if (this.map && this.coordinatesAreValid()) {
       this.renderCoordinates();
     }
   }
@@ -68,12 +66,13 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
+  private coordinatesAreValid() {
+    return this.coordinates && this.coordinates.polyline && this.coordinates.point && this.coordinates.location;
+  }
   
   handleMapInitialized(map: google.maps.Map) {
     this.map = map;
-    const isMapInitialized = this.map;
-    const isValidCoordinates = this.coordinates && this.coordinates.polyline && this.coordinates.point && this.coordinates.location;
-    if (isMapInitialized && isValidCoordinates) {
+    if (this.map && this.coordinatesAreValid()) {
       this.renderCoordinates();
     }
   }

@@ -1,0 +1,8 @@
+#toolbar-content {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.form-inline > * {
+    display: inline-flex;
+}
