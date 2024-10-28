@@ -5,16 +5,16 @@ namespace Domain;
 public class Polyline
 {
     public IList<Point> Points { get; }
-    private IList<Vector> Vertices { get; }
-    public Double Station => this.Vertices.Sum(v => v.Distance);
+    public IList<Vector> Vectors { get; }
+    public Double Station => this.Vectors.Sum(v => v.Distance);
 
     public Polyline(IList<Point> points)
     {
         this.Points = points;
-        this.Vertices = new List<Vector>();
+        this.Vectors = new List<Vector>();
         for (int i = 0; i < Points.Count-1; i++)
         {
-            Vertices.Add(new Vector(points[i], points[i+1]));
+            Vectors.Add(new Vector(points[i], points[i+1]));
         }
     }
 }

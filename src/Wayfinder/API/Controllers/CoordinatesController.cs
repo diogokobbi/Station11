@@ -20,6 +20,7 @@ public class CoordinatesController : ControllerBase
     [HttpPost]
     public Coordinates? Post([FromBody] CoordinatesRequest request)
     {
+        //TODO: validate request
         request.Point = new Point(-22.412260, -42.966400);
         request.PolylinePoints = new List<Point>
         {
