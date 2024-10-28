@@ -29,7 +29,7 @@ public class CoordinatesController : ControllerBase
             new Point(-21.764940, -43.348969), 
             new Point(-20.139370, -44.886990),
         };
-        var newCoordinates = _calculator.Calculate(request.Point, request.PolylinePoints);
+        var newCoordinates = _calculator.GetCoordinates(request.Point, request.PolylinePoints);
         return newCoordinates;
     }
 }

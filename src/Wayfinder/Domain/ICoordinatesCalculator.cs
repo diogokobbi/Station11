@@ -2,5 +2,5 @@
 
 public interface ICoordinatesCalculator
 {
-    public Coordinates? Calculate(Point point, IList<Point> PolylinePoints);
+    public Coordinates? GetCoordinates(Point point, IList<Point> PolylinePoints);
 }

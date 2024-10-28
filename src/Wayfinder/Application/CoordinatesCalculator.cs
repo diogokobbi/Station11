@@ -1,35 +1,41 @@
-﻿using System.Collections.Immutable;
-using System.Data.Common;
-using Domain;
+﻿using Domain;
+using System.Linq;
 
 namespace Application;
 
 public class CoordinatesCalculator: ICoordinatesCalculator
 {
-    public Coordinates? Calculate(Point point, IList<Point> polylinePoints)
+    public Coordinates? GetCoordinates(Point point, IList<Point> polylinePoints)
     {
-        //Todo: replace with build polyline from polyline points
         var polyline = new Polyline(polylinePoints);
+        Vector? closestVector = polyline.ClosestVector(point);
         
-        //TODO: calculate offset
-        var offset = 520;
+        var stationPolyline = _buildStationPolyline(polylinePoints, closestVector, point);
+
+        return closestVector != null
+        ? new Coordinates(point, polyline.Points, closestVector.Location(point), closestVector.Offset(point), stationPolyline.Station)
+            : null;
         
-        //TODO: calculate location
-        var location = new Point(-22.420349, -43.196453);
-        
-        //TODO: build station polyline
-        var stationPolylinePoints = new List<Point>
+        Polyline? _buildStationPolyline(IList<Point> polylinePoints, Vector? shortestVector, Point? point)
         {
-            new Point(-22.906847, -43.172897), 
-            new Point(-22.509911, -43.175480),
-            new Point(-21.764940, -43.348969), 
-            new Point(-20.139370, -44.886990),
-        };
-        var stationPolyline = new Polyline(stationPolylinePoints);
-        
-        //TODO: calculate station
-        var station = stationPolyline.Station;
-        
-        return new Coordinates(point, polyline.Points, location, offset, station);
+            var shortestLocation = shortestVector.Location(point);
+            var stationPolylinePoints = new List<Point>();
+            foreach (var polylinePoint in polylinePoints)
+            {
+                if (polylinePoint.X == shortestVector.B.X && polylinePoint.Y == shortestVector.B.Y)
+                {
+                    stationPolylinePoints.Add(shortestLocation);
+                    break;
+                }
+                else
+                {
+                    stationPolylinePoints.Add(polylinePoint);
+                }
+            }
+            return stationPolylinePoints.Any() 
+                                        ? new Polyline(stationPolylinePoints) 
+                                        : null;
+            
+        }
     }
 }

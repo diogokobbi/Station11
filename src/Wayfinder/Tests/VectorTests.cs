@@ -10,11 +10,11 @@ public class VectorTests
         var pointA = new Point(Ax, Ay);
         var pointB = new Point(Bx, By);
         var vector = new Vector(pointA, pointB);
-        Assert.Equal(expectedDistance, Math.Round(vector.Distance, 3));
+        Assert.Equal(expectedDistance, vector.Distance);
     }
     
     [Theory]
-    [InlineData(-4, -3, 3, 4, 2, 0, 2.12132)]
+    [InlineData(-4, -3, 3, 4, 2, 0, 2.121)]
     public void Vector_ReturnsCorrectOffset(double Ax, double Ay, double Bx, double By, double Px, double Py, double Offset)
     {
         var pointA = new Point(Ax, Ay);
@@ -22,7 +22,7 @@ public class VectorTests
         var vector = new Vector(pointA, pointB);
         var pointC = new Point(Px, Py);
         var vectorOffset = vector.Offset(pointC);
-        Assert.Equal(Math.Round(vectorOffset.Value, 5), Offset);
+        Assert.Equal(Math.Round(vectorOffset, 5), Offset);
     }
     
     [Theory]
@@ -34,6 +34,7 @@ public class VectorTests
         var vector = new Vector(pointA, pointB);
         var pointC = new Point(Px, Py);
         var location = vector.Location(pointC);
+        Assert.NotNull(location);
         Assert.Equal(location.X, LX);
         Assert.Equal(location.Y, LY);
     }
