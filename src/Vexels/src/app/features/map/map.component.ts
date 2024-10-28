@@ -16,9 +16,10 @@ export class MapComponent implements OnChanges {
   @Input() coordinates: components['schemas']['Coordinates'] | undefined;
 
   public map: google.maps.Map | undefined;
-  public center: any = { lat: 0, lng: 0 };
+  public center: any = { lat: -22.412260, lng: -42.966400 };
   public pointMarker: any = undefined;
   public locationMarker: any = undefined;
+  public polyline: any = undefined;
   public options: google.maps.MapOptions = {
     mapId: "map",
     zoom: 10,
@@ -39,6 +40,10 @@ export class MapComponent implements OnChanges {
 
   private renderCoordinates() {
     if (this.coordinates) {
+      this.pointMarker?.setMap(null);
+      this.locationMarker?.setMap(null);
+      this.polyline?.setMap(null);
+
       //Add point and set as map center
       if (this.coordinates?.point?.x && this.coordinates?.point?.y) {
         const markerPosition = { lat: this.coordinates?.point?.x, lng: this.coordinates?.point?.y };
@@ -66,14 +71,14 @@ export class MapComponent implements OnChanges {
         if (point.x && point.y)
           polylinePath.push({ lat: point.x, lng: point.y});
       });
-      const polyline = new google.maps.Polyline({
+      this.polyline = new google.maps.Polyline({
         path: polylinePath,
         geodesic: true,
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
         strokeWeight: 2,
       });
-      polyline.setMap(this.map!);
+      this.polyline.setMap(this.map!);
     }
   }
 

@@ -21,19 +21,19 @@ export class ToolbarComponent {
   public requestForm: FormGroup = new FormGroup({
     latitude: new FormControl<number|undefined>(undefined, Validators.required),
     longitude: new FormControl<number|undefined>(undefined, Validators.required),
-    polylinePoints: new FormControl<File|undefined>(undefined)
+    polylineFile: new FormControl<File|undefined>(undefined)
   });
 
-  public handleOnFormSubmitted(): void {
+  public handleOnFormSubmitted(): void {    
+    console.log('requestForm', this.requestForm);
     if (this.requestForm.valid) {
       const request: components["schemas"]["CoordinatesRequest"] = {
         point: {
           x: this.requestForm.get('latitude')?.value,
           y: this.requestForm.get('longitude')?.value
         },
-        polylinePoints: this.coordinatesService.mockCoordinates().polyline
+        polylineFile: this.requestForm.get('polylineFile')?.value
       };
-      //TODO: change polylinePoints to file
       this.coordinatesService.getCoordinates(request)
         .subscribe({
           next: (coordinates: components["schemas"]["Coordinates"]) => {            
@@ -51,5 +51,11 @@ export class ToolbarComponent {
     } else {
       //TODO: toast notification
     }
+  }
+
+  public handleFileUpload(event: any): void {
+    event.target.files[0].text().then((text: string) => {
+      this.requestForm.get('polylineFile')?.setValue(text);
+    });
   }
 }

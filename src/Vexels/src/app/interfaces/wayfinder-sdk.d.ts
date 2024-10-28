@@ -62,7 +62,8 @@ export interface components {
         };
         CoordinatesRequest: {
             point?: components["schemas"]["Point"];
-            polylinePoints?: components["schemas"]["Point"][] | null;
+            /** Format: binary */
+            polylineFile?: string | null;
         };
         Point: {
             /** Format: double */

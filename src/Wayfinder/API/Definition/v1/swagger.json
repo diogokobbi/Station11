@@ -89,11 +89,8 @@
           "point": {
             "$ref": "#/components/schemas/Point"
           },
-          "polylinePoints": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Point"
-            },
+          "polylineFile": {
+            "type": "string",
             "nullable": true
           }
         },
