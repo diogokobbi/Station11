@@ -2,16 +2,18 @@
     <form class="form-inline my-2" [formGroup]="requestForm" (ngSubmit)="handleOnFormSubmitted()">
         <div class="form-group mb-2">
             <label for="latitude" class="mx-2">Latitude</label>
-            <input type="number" class="form-control" id="latitude" formControlName="latitude">
-        </div>    
+            <input type="number" class="form-control" id="latitude" formControlName="latitude" [ngClass]="{ 'required-input' : requestForm.controls['latitude']?.invalid && requestForm.controls['latitude']?.touched }">
+        </div>
         <div class="form-group mb-2">
             <label for="longitude" class="mx-2">Longitude</label>
-            <input type="number" class="form-control" id="longitude" formControlName="longitude">
+            <input type="number" class="form-control" id="longitude" formControlName="longitude" [ngClass]="{ 'required-input' : requestForm.controls['longitude']?.invalid && requestForm.controls['longitude']?.touched }">
         </div>
         <div class="form-group mx-sm-3 mb-2">
             <label for="polyline" class="mx-2">Polyline</label>
             <input type="file" class="form-control-file" (change)="handleFileUpload($event)" >
         </div>
-        <button type="submit" class="btn btn-primary mb-2">Calcular</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary mb-2" [disabled]="!requestForm.valid">Calcular</button>
+        </div>
     </form>
 </div>

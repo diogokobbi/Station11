@@ -1,8 +1,22 @@
 #toolbar-content {
     display: table-cell;
     vertical-align: middle;
+    padding-top: 5px;
 }
 
 .form-inline > * {
     display: inline-flex;
+}
+
+.form-group > label {
+    margin-top: 4px;
+}
+
+
+.form-group > button {
+    margin-top: 4px;
+}
+
+.required-input {
+    border: 1px solid red;
 }

@@ -21,7 +21,6 @@ public class CoordinatesController : ControllerBase
     [HttpPost]
     public Coordinates? Post([FromBody] CoordinatesRequest request)
     {
-        //request.Point = new Point(-22.412260, -42.966400);
         var polylinePoints = _parseFile(request.PolylineFile);
         var newCoordinates = _calculator.GetCoordinates(request.Point, polylinePoints);
         return newCoordinates;
@@ -29,19 +28,30 @@ public class CoordinatesController : ControllerBase
 
     private IList<Point> _parseFile(string fileContent)
     {
+        var errorMessage = "Arquivo inválido";
         var polylinePoints = new List<Point>();
-        var polylineValues = fileContent.Split("\r\n");
+        
+        var polylineValues = !String.IsNullOrWhiteSpace(fileContent) ? fileContent.Split("\r\n") : null;
         if (polylineValues != null && polylineValues.Any())
         {
             foreach (var pointValues in polylineValues)
             {
-                var values = pointValues.Split(",");
                 double x,y;
-                Double.TryParse(values[0], NumberStyles.Float, CultureInfo.InvariantCulture, out x);
-                Double.TryParse(values[1], NumberStyles.Float, CultureInfo.InvariantCulture, out y);
+                var values = pointValues.Split(",");
+                
+                if (values == null || values.Length != 2)
+                    throw new ArgumentException(errorMessage);
+                if (!Double.TryParse(values[0], NumberStyles.Float, CultureInfo.InvariantCulture, out x))
+                    throw new ArgumentException(errorMessage);
+                if (!Double.TryParse(values[1], NumberStyles.Float, CultureInfo.InvariantCulture, out y))
+                    throw new ArgumentException(errorMessage);
+                
                 var point = new Point(x, y);
                 polylinePoints.Add(point);
             }
+        }
+        else {
+            throw new ArgumentException(errorMessage);
         }
 
         return polylinePoints;
