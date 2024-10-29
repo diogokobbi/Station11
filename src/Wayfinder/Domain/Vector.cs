@@ -36,7 +36,7 @@ public class Vector
         var dx = point.X - xx;
         var dy = point.Y - yy;
 
-        return Math.Round(Math.Sqrt(dx * dx + dy * dy), 3);
+        return Math.Sqrt(dx * dx + dy * dy);
     }
 
     public Point? Location(Point point)

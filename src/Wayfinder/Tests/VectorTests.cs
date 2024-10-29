@@ -22,7 +22,7 @@ public class VectorTests
         var vector = new Vector(pointA, pointB);
         var pointC = new Point(Px, Py);
         var vectorOffset = vector.Offset(pointC);
-        Assert.Equal(Math.Round(vectorOffset, 5), Offset);
+        Assert.Equal(Math.Round(vectorOffset, 3), Offset);
     }
     
     [Theory]

@@ -6,7 +6,7 @@ public class Polyline
 {
     public IList<Point> Points { get; }
     public IList<Vector> Vectors { get; }
-    public Double Station => Math.Round(this.Vectors.Sum(v => v.Distance), 3);
+    public Double Station => this.Vectors.Sum(v => v.Distance);
 
     public Polyline(IList<Point> points)
     {

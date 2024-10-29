@@ -1,0 +1,13 @@
+﻿services:
+  client:
+    build:
+      context: ./Vexels
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+  api:
+    build:
+      context: ./Wayfinder
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"

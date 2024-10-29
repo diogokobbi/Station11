@@ -13,7 +13,7 @@ public class CoordinatesCalculator: ICoordinatesCalculator
         var stationPolyline = _buildStationPolyline(polylinePoints, closestVector, point);
 
         return closestVector != null
-        ? new Coordinates(point, polyline.Points, closestVector.Location(point), closestVector.Offset(point), stationPolyline.Station)
+            ? new Coordinates(point, polyline.Points, closestVector.Location(point), closestVector.Offset(point), stationPolyline.Station)
             : null;
         
         Polyline? _buildStationPolyline(IList<Point> polylinePoints, Vector? shortestVector, Point? point)
